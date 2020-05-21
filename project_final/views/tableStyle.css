@@ -1,0 +1,32 @@
+#data {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 80%;
+  margin-left: 10%;
+}
+
+#data td, #data th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+#data tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#data tr:hover {
+  background-color: #ddd;
+}
+
+#data th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: RebeccaPurple;
+  color: white;
+}
+
+.delete {
+  color: red;
+}

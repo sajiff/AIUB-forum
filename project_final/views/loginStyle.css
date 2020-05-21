@@ -1,0 +1,78 @@
+.frame {
+  padding: 16px;
+  margin: 20px 10px;
+}
+
+input {
+  padding: 16px 20px;
+  margin: 8px;
+  border: none;
+  border-bottom: 2px solid DarkSlateBlue;
+  width: 95%;
+}
+
+body {
+  font-family: Tahoma;
+  font-size: 13px;
+  background-image: url("../storage/images/loginBack.jpg");
+  background-repeat: no-repea1t;
+  background-size: cover;
+}
+
+form {
+  width: 300px;
+  height: 400px;
+  background: GhostWhite;
+  box-shadow: 5px 5px #888888;
+}
+
+button {
+  background-color: DarkSlateBlue;
+  color: White;
+  padding: 16px 20px;
+  margin: 10px;
+  border: ash;
+  cursor: pointer;
+  width: 95%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.center {
+  margin: auto;
+  padding: 10px;
+  margin-top: 120px;
+  margin-bottom: 0px;
+}
+
+.s1 {
+  text-align: center;
+  font-size: 200%;
+  padding-top: 25px;
+}
+
+.s2 {
+  text-align: center;
+  font-size: 100%;
+  padding-top: 10px;
+}
+
+section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-left: 10%;
+}
+
+.box {
+  position: relative;
+  padding: 40px;
+  width: 600px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 5px;
+  text-align: center;
+  transition: all .5s;
+}

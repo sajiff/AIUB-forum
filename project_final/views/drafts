@@ -1,0 +1,144 @@
+CONTROLLER WITH REPLY DILE POST IN LAST
+
+<?php
+ob_start();
+date_default_timezone_set('Asia/Dhaka');
+function setComments($conn){
+  if(isset($_POST['submitComment']))
+  {
+      $uid=$_POST['uid'];
+      $date=$_POST['date'];
+      $message=$_POST['message'];
+
+      $sql="INSERT INTO comments (uid,date,message )
+       VALUES ('$uid','$date','$message') ";
+       $result =$conn->query($sql);
+  }
+}
+
+function getComments($conn){
+  $sql="SELECT * FROM comments";
+  $result =$conn->query($sql);
+  while ($row=$result->fetch_assoc()) { //splite the query
+    $id=$row['uid'];
+    $sql_gu="SELECT * FROM user WHERE id='$id'";
+    $result_gu =$conn->query($sql_gu); //which user posting what
+
+    if($row_gu=$result_gu->fetch_assoc()){
+      echo "<div class='commentBox'>";
+      echo "<div class='whowhen'>";
+      echo"<img src=''>";
+      echo $row_gu['uid'];
+      echo "<br>";
+      echo $row['date'];
+      echo "</div><P>";
+      echo nl2br($row['message']);
+      echo "</p>";
+      if(isset($_SESSION['id'])){
+        if($_SESSION['id']==$row_gu['id']){
+          echo "<form class='deleteform' method='POST' action='".deleteComments($conn)."'>
+            <input type='hidden' name='cid' value='".$row['cid']."'>
+            <button type='submit' class='button deleteButton' name='deleteComment'>delete</button>
+          </form>
+                <form class='editform' method='POST' action='../views/editComment.php'>
+                  <input type='hidden' name='cid' value='".$row['cid']."'>
+                  <input type='hidden' name='uid' value='".$row['uid']."'>
+                  <input type='hidden' name='date' value='".$row['date']."'>
+                  <input type='hidden' name='message' value='".$row['message']."'> </input>
+                  <button class='button editButton'>edit</button>
+                </form>";
+        }else{
+            $id = $_SESSION['id'];
+            echo "<form method='POST' action='../views/reply.php'>
+            <input type='hidden' name='uid' value='".$id."'>
+            <button type='submit' class='button deleteButton' name='reply'>reply</button>
+          </form>";
+        }
+      }else{
+        echo "<p>you are not log in</p>";
+      }
+      echo "</div>";
+}
+  }
+}
+
+function editComments($conn){
+  if(isset($_SESSION['id'])){
+  if(isset($_POST['submitComment']))
+  {
+      $cid=$_POST['cid'];
+      $uid=$_POST['uid'];
+      $date=$_POST['date'];
+      $message=$_POST['message'];
+
+      $sql="UPDATE comments SET message='$message' WHERE cid='$cid'";
+       $result =$conn->query($sql);
+       $a= $_SESSION['id'];
+       $url='../views/mainHome.php?$a='.$a;
+       header('Location: '.$url);
+  }
+}
+}
+
+function replyComments($conn){
+  if(isset($_SESSION['id'])){
+  if(isset($_POST['replyComment']))
+  {
+      $uid=$_POST['uid'];
+      $date=date('Y-m-d H:i:s');
+      $message=$_POST['message'];
+
+      $sql="INSERT INTO comments (uid,date,message )
+       VALUES ('$uid','$date','$message') ";
+       $result =$conn->query($sql);
+
+       $a= $_SESSION['id'];
+       $url='../views/mainHome.php?$a='.$a;
+       header('Location: '.$url);
+  }
+}
+}
+
+function deleteComments($conn){
+  if(isset($_POST['deleteComment']))
+  {
+    $cid=$_POST['cid'];
+
+    $sql="DELETE FROM comments WHERE cid='$cid'";
+    $result =$conn->query($sql);
+    $a= $_SESSION['id'];
+    $url='../views/mainHome.php?$a='.$a;
+    header('Location: '.$url);
+  }
+}
+
+function getLoginDetails($conn){
+  if(isset($_POST['submitLogin']))
+  {
+  $uid = $_POST['uid'];
+  $pass = $_POST['pass'];
+  $sql="SELECT * FROM user WHERE uid='$uid' AND pass='$pass'";
+  $result =$conn->query($sql);
+  if(mysqli_num_rows($result)>0){
+    if ($row=$result->fetch_assoc()) {
+      $_SESSION['id']=$row['id'];
+      $a= $_SESSION['id'];
+      $url='../views/mainHome.php?$a='.$a;
+      header('Location: '.$url);
+      exit();
+    }else{
+      header("Location: ../views/mainHome.php?loginFaild");
+      exit();
+    }
+  }
+}
+}
+
+/*function userLogout(){
+  if(isset($_POST['submitLogout']))
+  {
+  session_destroy();
+  header("Location: ../views/login.php");
+  exit();
+}
+}*/
